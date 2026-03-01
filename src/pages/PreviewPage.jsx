@@ -134,7 +134,7 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
             </nav>
 
             {/* Preview area */}
-            <div className="pt-16 flex-1 overflow-auto" style={{ background: '#0f0f1a' }}>
+            <div className="pt-16 flex-1 overflow-auto" style={{ background: '#ffffff' }}>
                 <div className="py-8 px-4 flex justify-center min-h-screen">
                     <div style={{
                         transform: window.innerWidth < 768 ? 'scale(0.5)' : 'scale(0.85)',
