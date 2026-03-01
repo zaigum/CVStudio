@@ -128,8 +128,8 @@ export default function HomePage({ navigate }) {
         console.log('💼 Title:', title)
         
         // Extract summary
-        const summaryMatch = text.match(/I'm ([^E]{100,500}?)(?=\s+E\s+Skills|Skills)/i)
-        const summary = summaryMatch ? "I'm " + summaryMatch[1].trim().replace(/\s+/g, ' ') : ''
+        const summaryMatch = text.match(/I'm ([^]+?)(?=E\s+Skills|Skills)/i)
+        const summary = summaryMatch ? "I'm " + summaryMatch[1].trim().replace(/\s+/g, ' ').substring(0, 400) : ''
         console.log('📄 Summary:', summary.substring(0, 150))
 
         // Extract skills
@@ -148,7 +148,7 @@ export default function HomePage({ navigate }) {
 
         // Extract experience
         const experience = []
-        const expMatches = text.matchAll(/([\w\s\/]+developer)\s+([A-Z]+)\s+-\s+([^|]+)\|\s*([^\n]+)/gi)
+        const expMatches = text.matchAll(/([\w\s\/\.]+developer)\s+([A-Z]+)\s+-\s+([^|]+?)\|\s*([^\n]+)/gi)
         for (const match of expMatches) {
             experience.push({
                 title: match[1].trim(),
@@ -231,7 +231,8 @@ export default function HomePage({ navigate }) {
             
             setTimeout(() => {
                 setScanning(false)
-                navigate('editor', parsed)
+                const cleanData = JSON.parse(JSON.stringify(parsed))
+                navigate('editor', { ...cleanData, templateId: 0 })
             }, 500)
         } catch (e) {
             console.error('❌ Error:', e)
@@ -246,10 +247,11 @@ export default function HomePage({ navigate }) {
         maxFiles: 1
     })
 
-    const startFresh = () => {
+    const startFresh = (templateId = 0) => {
         navigate('editor', {
             personal: { name: '', email: '', phone: '', linkedin: '', website: '', location: '', title: '' },
-            summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: []
+            summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: [],
+            templateId
         })
     }
 
@@ -361,7 +363,7 @@ export default function HomePage({ navigate }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                         {TEMPLATES.map((t) => (
-                            <div key={t.id} onClick={startFresh} className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-gray-200 hover:border-indigo-500/50 transition-all hover:-translate-y-2 shadow-sm">
+                            <div key={t.id} onClick={() => startFresh(t.id)} className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-gray-200 hover:border-indigo-500/50 transition-all hover:-translate-y-2 shadow-sm">
                                 <div className={`h-48 ${t.preview} relative p-6 flex flex-col justify-end overflow-hidden`}>
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                                         <button className="bg-white text-black text-xs font-bold px-4 py-2 rounded-lg">Use Template</button>

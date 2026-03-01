@@ -67,12 +67,15 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
             if (!el) return
 
             const canvas = await html2canvas(el, {
-                scale: 3,
+                scale: 2,
                 useCORS: true,
                 backgroundColor: '#ffffff',
                 logging: false,
-                windowWidth: el.scrollWidth,
-                windowHeight: el.scrollHeight,
+                windowWidth: 794,
+                windowHeight: 1123,
+                letterRendering: true,
+                allowTaint: false,
+                removeContainer: true
             })
 
             const imgData = canvas.toDataURL('image/png', 1.0)

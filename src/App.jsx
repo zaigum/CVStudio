@@ -11,21 +11,50 @@ function App() {
     // Save to localStorage
     useEffect(() => {
         if (cvData) {
-            localStorage.setItem('cvData', JSON.stringify(cvData))
-            localStorage.setItem('selectedTemplate', selectedTemplate.toString())
+            try {
+                localStorage.setItem('cvData', JSON.stringify(cvData))
+                localStorage.setItem('selectedTemplate', selectedTemplate.toString())
+            } catch (e) {
+                console.error('Error saving to localStorage:', e)
+            }
         }
     }, [cvData, selectedTemplate])
 
     // Load from localStorage on mount
     useEffect(() => {
-        const saved = localStorage.getItem('cvData')
-        const savedTemplate = localStorage.getItem('selectedTemplate')
-        if (saved) setCvData(JSON.parse(saved))
-        if (savedTemplate) setSelectedTemplate(parseInt(savedTemplate))
+        try {
+            const saved = localStorage.getItem('cvData')
+            const savedTemplate = localStorage.getItem('selectedTemplate')
+            if (saved) {
+                const parsed = JSON.parse(saved)
+                // Validate that parsed data doesn't have circular references
+                JSON.stringify(parsed)
+                setCvData(parsed)
+            }
+            if (savedTemplate) setSelectedTemplate(parseInt(savedTemplate))
+        } catch (e) {
+            console.error('Error loading from localStorage:', e)
+            // Clear corrupted data
+            localStorage.removeItem('cvData')
+            localStorage.removeItem('selectedTemplate')
+        }
     }, [])
 
     const navigate = (page, data = null) => {
-        if (data) setCvData(data)
+        if (data) {
+            try {
+                // Validate data doesn't have circular references
+                JSON.stringify(data)
+                setCvData(data)
+            } catch (e) {
+                console.error('Navigation data error:', e)
+                // Set clean default data
+                setCvData({
+                    personal: { name: '', email: '', phone: '', linkedin: '', website: '', location: '', title: '' },
+                    summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: []
+                })
+            }
+        }
         setCurrentPage(page)
     }
 

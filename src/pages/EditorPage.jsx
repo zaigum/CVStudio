@@ -42,11 +42,16 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
     const update = (path, value) => {
         const keys = path.split('.')
         setCvData(prev => {
-            const next = JSON.parse(JSON.stringify(prev))
-            let obj = next
-            for (let i = 0; i < keys.length - 1; i++) obj = obj[keys[i]]
-            obj[keys[keys.length - 1]] = value
-            return next
+            try {
+                const next = JSON.parse(JSON.stringify(prev))
+                let obj = next
+                for (let i = 0; i < keys.length - 1; i++) obj = obj[keys[i]]
+                obj[keys[keys.length - 1]] = value
+                return next
+            } catch (e) {
+                console.error('Update error:', e)
+                return prev
+            }
         })
     }
 
