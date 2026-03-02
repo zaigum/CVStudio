@@ -83,14 +83,16 @@ export default function TemplateSimpleClean({ data }) {
             {/* Skills */}
             {skills.length > 0 && (
                 <Section title="Skills">
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'flex-start' }}>
                         {skills.map((skill, i) => (
                             <span key={i} style={{
-                                padding: '6px 12px',
+                                padding: '5px 10px',
                                 border: '1px solid #ddd',
                                 borderRadius: '4px',
                                 fontSize: '11px',
-                                color: '#333'
+                                color: '#333',
+                                display: 'inline-block',
+                                lineHeight: '1.2'
                             }}>
                                 {skill}
                             </span>

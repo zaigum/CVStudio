@@ -55,11 +55,17 @@ export default function TemplateForestMint({ data }) {
 
                 {skills.length > 0 && (
                     <MintSideSection title="Skills">
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'flex-start' }}>
                             {skills.map((skill, i) => (
                                 <span key={i} style={{
-                                    background: 'rgba(16,185,129,0.2)', border: '1px solid rgba(52,211,153,0.4)',
-                                    color: '#6ee7b7', padding: '3px 9px', borderRadius: '12px', fontSize: '10px'
+                                    background: 'rgba(16,185,129,0.2)', 
+                                    border: '1px solid rgba(52,211,153,0.4)',
+                                    color: '#6ee7b7', 
+                                    padding: '5px 10px', 
+                                    borderRadius: '12px', 
+                                    fontSize: '10px',
+                                    display: 'inline-block',
+                                    lineHeight: '1.2'
                                 }}>{skill}</span>
                             ))}
                         </div>

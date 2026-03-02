@@ -158,22 +158,18 @@ export default function TemplateMidnightPro({ data }) {
 
                     {skills.length > 0 && (
                         <CVSection title="SKILLS" color="#8b5cf6">
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', justifyContent: 'flex-start' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'flex-start', alignItems: 'center' }}>
                                 {skills.map((skill, i) => (
                                     <span key={i} style={{
                                         background: 'rgba(99,102,241,0.1)', 
                                         border: '1px solid rgba(99,102,241,0.3)',
                                         color: '#6366f1', 
-                                        padding: '6px 12px', 
+                                        padding: '5px 10px', 
                                         borderRadius: '12px', 
                                         fontSize: '10px', 
                                         fontWeight: 500,
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        height: '24px',
-                                        lineHeight: '1',
-                                        verticalAlign: 'middle'
+                                        display: 'inline-block',
+                                        lineHeight: '1.2'
                                     }}>{skill}</span>
                                 ))}
                             </div>

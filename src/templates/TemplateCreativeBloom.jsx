@@ -103,12 +103,18 @@ export default function TemplateCreativeBloom({ data }) {
                 <div style={{ width: '220px', background: '#fdf2f8', padding: '28px 32px 40px 20px', borderLeft: '1px solid #fce7f3' }}>
                     {skills.length > 0 && (
                         <BloomSection title="Skills" accent="#f43f5e">
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'flex-start' }}>
                                 {skills.map((skill, i) => (
                                     <span key={i} style={{
                                         background: 'linear-gradient(135deg, rgba(236,72,153,0.12), rgba(244,63,94,0.12))',
                                         border: '1px solid rgba(236,72,153,0.3)',
-                                        color: '#be185d', padding: '3px 9px', borderRadius: '15px', fontSize: '10px', fontWeight: 500
+                                        color: '#be185d', 
+                                        padding: '5px 10px', 
+                                        borderRadius: '15px', 
+                                        fontSize: '10px', 
+                                        fontWeight: 500,
+                                        display: 'inline-block',
+                                        lineHeight: '1.2'
                                     }}>{skill}</span>
                                 ))}
                             </div>

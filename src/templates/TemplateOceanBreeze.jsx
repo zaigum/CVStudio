@@ -102,11 +102,17 @@ export default function TemplateOceanBreeze({ data }) {
                         <div style={{ width: '210px', background: '#e0f2fe', padding: '28px 24px', borderLeft: '1px solid #bae6fd' }}>
                             {skills.length > 0 && (
                                 <OceanSection title="Skills" sidebar>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'flex-start' }}>
                                         {skills.map((skill, i) => (
                                             <span key={i} style={{
-                                                background: '#0ea5e9', color: 'white',
-                                                padding: '3px 9px', borderRadius: '12px', fontSize: '10px', fontWeight: 600
+                                                background: '#0ea5e9', 
+                                                color: 'white',
+                                                padding: '5px 10px', 
+                                                borderRadius: '12px', 
+                                                fontSize: '10px', 
+                                                fontWeight: 600,
+                                                display: 'inline-block',
+                                                lineHeight: '1.2'
                                             }}>{skill}</span>
                                         ))}
                                     </div>
