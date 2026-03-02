@@ -31,7 +31,7 @@ export default function TemplateMidnightPro({ data }) {
                         <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#0f172a', margin: 0, letterSpacing: '-0.5px', fontFamily: 'Space Grotesk, sans-serif' }}>
                             {p.name || 'Your Name'}
                         </h1>
-                        <p style={{ color: '#6366f1', fontSize: '14px', fontWeight: 500, margin: '4px 0 0', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                        <p style={{ color: '#141e30', fontSize: '14px', fontWeight: 500, margin: '4px 0 0', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
                             {p.title || 'Professional Title'}
                         </p>
                     </div>
@@ -43,7 +43,7 @@ export default function TemplateMidnightPro({ data }) {
                         {p.website && <div>🌐 {p.website}</div>}
                     </div>
                 </div>
-                <div style={{ height: '2px', background: 'linear-gradient(90deg, #6366f1, #8b5cf6, transparent)', marginTop: '24px', borderRadius: '1px' }} />
+                <div style={{ height: '2px', background: '#141e30', marginTop: '24px', borderRadius: '1px' }} />
             </div>
 
             <div style={{ display: 'flex', gap: 0 }}>
@@ -51,7 +51,7 @@ export default function TemplateMidnightPro({ data }) {
                 <div style={{ width: '62%', padding: '0 24px 40px 48px', borderRight: '1px solid rgba(99,102,241,0.15)' }}>
 
                     {data?.summary && (
-                        <CVSection title="SUMMARY" color="#6366f1">
+                        <CVSection title="SUMMARY" color="#141e30">
                             <p style={{ 
                                 color: '#475569', 
                                 fontSize: '12px', 
@@ -64,7 +64,7 @@ export default function TemplateMidnightPro({ data }) {
                     )}
 
                     {experience.length > 0 && (
-                        <CVSection title="EXPERIENCE" color="#6366f1">
+                        <CVSection title="EXPERIENCE" color="#141e30">
                             {experience.map((exp, i) => (
                                 <div key={i} style={{ marginBottom: '14px' }}>
                                     <h3 style={{ 
@@ -77,7 +77,7 @@ export default function TemplateMidnightPro({ data }) {
                                         lineHeight: '1.4' 
                                     }}>{exp.title}</h3>
                                     <p style={{ 
-                                        color: '#6366f1', 
+                                        color: '#141e30', 
                                         fontSize: '11px', 
                                         margin: 0, 
                                         marginBottom: '2px', 
@@ -106,7 +106,7 @@ export default function TemplateMidnightPro({ data }) {
                     )}
 
                     {projects.length > 0 && (
-                        <CVSection title="PROJECTS" color="#6366f1">
+                        <CVSection title="PROJECTS" color="#141e30">
                             {projects.map((proj, i) => (
                                 <div key={i} style={{ marginBottom: '12px' }}>
                                     <h3 style={{ 
@@ -120,7 +120,7 @@ export default function TemplateMidnightPro({ data }) {
                                     }}>{proj.name}</h3>
                                     {proj.tech && (
                                         <p style={{ 
-                                            color: '#6366f1', 
+                                            color: '#141e30', 
                                             fontSize: '10px', 
                                             margin: 0, 
                                             marginBottom: '2px', 
@@ -157,13 +157,13 @@ export default function TemplateMidnightPro({ data }) {
                 <div style={{ width: '38%', padding: '0 48px 40px 24px' }}>
 
                     {skills.length > 0 && (
-                        <CVSection title="SKILLS" color="#8b5cf6">
+                        <CVSection title="SKILLS" color="#141e30">
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'flex-start', alignItems: 'center' }}>
                                 {skills.map((skill, i) => (
                                     <span key={i} style={{
-                                        background: 'rgba(99,102,241,0.1)', 
-                                        border: '1px solid rgba(99,102,241,0.3)',
-                                        color: '#6366f1', 
+                                        background: 'rgba(20,30,48,0.1)', 
+                                        border: '1px solid rgba(20,30,48,0.3)',
+                                        color: '#141e30', 
                                         padding: '5px 10px', 
                                         borderRadius: '12px', 
                                         fontSize: '10px', 
@@ -177,11 +177,11 @@ export default function TemplateMidnightPro({ data }) {
                     )}
 
                     {education.length > 0 && (
-                        <CVSection title="EDUCATION" color="#8b5cf6">
+                        <CVSection title="EDUCATION" color="#141e30">
                             {education.map((edu, i) => (
                                 <div key={i} style={{ marginBottom: '12px' }}>
                                     <h3 style={{ color: '#0f172a', fontWeight: 700, fontSize: '12px', margin: 0 }}>{edu.degree}</h3>
-                                    <p style={{ color: '#6366f1', fontSize: '11px', margin: '2px 0' }}>{edu.school}</p>
+                                    <p style={{ color: '#141e30', fontSize: '11px', margin: '2px 0' }}>{edu.school}</p>
                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <span style={{ color: '#64748b', fontSize: '11px' }}>{edu.year}</span>
                                         {edu.gpa && <span style={{ color: '#64748b', fontSize: '11px' }}>GPA: {edu.gpa}</span>}
@@ -192,7 +192,7 @@ export default function TemplateMidnightPro({ data }) {
                     )}
 
                     {certifications.length > 0 && (
-                        <CVSection title="CERTIFICATIONS" color="#8b5cf6">
+                        <CVSection title="CERTIFICATIONS" color="#141e30">
                             {certifications.map((cert, i) => (
                                 <div key={i} style={{ marginBottom: '10px' }}>
                                     <h3 style={{ color: '#0f172a', fontSize: '12px', fontWeight: 700, margin: 0 }}>{cert.name}</h3>
@@ -203,11 +203,11 @@ export default function TemplateMidnightPro({ data }) {
                     )}
 
                     {languages.length > 0 && (
-                        <CVSection title="LANGUAGES" color="#8b5cf6">
+                        <CVSection title="LANGUAGES" color="#141e30">
                             {languages.map((lang, i) => (
                                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                                     <span style={{ color: '#0f172a', fontSize: '12px' }}>{lang.name}</span>
-                                    <span style={{ color: '#6366f1', fontSize: '11px', fontWeight: 600 }}>{lang.level}</span>
+                                    <span style={{ color: '#141e30', fontSize: '11px', fontWeight: 600 }}>{lang.level}</span>
                                 </div>
                             ))}
                         </CVSection>
@@ -215,7 +215,7 @@ export default function TemplateMidnightPro({ data }) {
 
                     {customSections.map((section) => (
                         section.title && section.items.length > 0 && (
-                            <CVSection key={section.id} title={section.title.toUpperCase()} color="#8b5cf6">
+                            <CVSection key={section.id} title={section.title.toUpperCase()} color="#141e30">
                                 {section.items.map((item) => (
                                     <div key={item.id} style={{ marginBottom: '10px' }}>
                                         {item.title && <h3 style={{ color: '#0f172a', fontSize: '12px', fontWeight: 700, margin: 0 }}>{item.title}</h3>}

@@ -307,11 +307,11 @@ export default function HomePage({ navigate }) {
             {/* Navbar */}
             <nav className="glass fixed top-0 left-0 right-0 z-50 px-8 py-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md">
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#141e30] shadow-lg">
                         <FileText size={18} color="white" />
                     </div>
                     <span className="text-gray-900 font-bold text-xl tracking-tight font-space">
-                        CV<span className="gradient-text">Studio</span>
+                        CV<span style={{ color: '#141e30' }}>Studio</span>
                     </span>
                 </div>
                 <button onClick={startFresh} className="btn-primary text-sm py-2 px-5 rounded-full flex items-center gap-2 hover:scale-105 transition-transform">
@@ -323,13 +323,10 @@ export default function HomePage({ navigate }) {
             <div className="relative z-10 pt-36 pb-32 px-6">
                 {/* Hero */}
                 <div className="max-w-6xl mx-auto text-center mb-20 animate-slide-up">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 bg-indigo-500/10 border border-indigo-500/20">
-                        <Star size={14} className="text-yellow-400" />
-                        <span className="text-xs font-semibold text-indigo-600 tracking-wide uppercase">Pakistan's #1 CV Maker</span>
-                    </div>
+                  
 
                     <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight font-space tracking-tighter text-gray-900">
-                        Craft Your <span className="gradient-text">Resume</span>
+                        Craft Your <span style={{ color: '#141e30' }}>Resume</span>
                     </h1>
 
                     <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -396,7 +393,7 @@ export default function HomePage({ navigate }) {
                 {/* Templates Section */}
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-black text-gray-900 mb-4 font-space">Choose Your <span className="gradient-text">Style</span></h2>
+                        <h2 className="text-4xl font-black text-gray-900 mb-4 font-space">Choose Your <span style={{ color: '#141e30' }}>Style</span></h2>
                         <p className="text-gray-600">Tailored templates for every industry</p>
                     </div>
 
