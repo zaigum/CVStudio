@@ -7,6 +7,7 @@ export default function TemplateMidnightPro({ data }) {
     const projects = data?.projects || []
     const certifications = data?.certifications || []
     const languages = data?.languages || []
+    const customSections = data?.customSections || []
 
     return (
         <div id="cv-preview" style={{
@@ -19,8 +20,7 @@ export default function TemplateMidnightPro({ data }) {
             padding: 0,
             position: 'relative',
             overflow: 'hidden',
-            wordBreak: 'normal',
-            whiteSpace: 'normal'
+            boxSizing: 'border-box'
         }}>
 
 
@@ -52,7 +52,14 @@ export default function TemplateMidnightPro({ data }) {
 
                     {data?.summary && (
                         <CVSection title="SUMMARY" color="#6366f1">
-                            <p style={{ color: '#475569', fontSize: '12px', lineHeight: '1.8', margin: 0, wordSpacing: '3px', letterSpacing: '0.4px', whiteSpace: 'pre-wrap' }}>{data.summary}</p>
+                            <p style={{ 
+                                color: '#475569', 
+                                fontSize: '12px', 
+                                lineHeight: '1.8', 
+                                margin: 0, 
+                                letterSpacing: '0.2px',
+                                wordSpacing: '0.5px'
+                            }}>{data.summary}</p>
                         </CVSection>
                     )}
 
@@ -60,9 +67,38 @@ export default function TemplateMidnightPro({ data }) {
                         <CVSection title="EXPERIENCE" color="#6366f1">
                             {experience.map((exp, i) => (
                                 <div key={i} style={{ marginBottom: '14px' }}>
-                                    <h3 style={{ color: '#0f172a', fontWeight: 700, fontSize: '13px', margin: 0, marginBottom: '3px', letterSpacing: '0.4px', lineHeight: '1.4' }}>{exp.title}</h3>
-                                    <p style={{ color: '#6366f1', fontSize: '11px', margin: 0, marginBottom: '2px', letterSpacing: '0.4px' }}>{exp.company}</p>
-                                    <span style={{ color: '#64748b', fontSize: '10px', display: 'block', letterSpacing: '0.4px' }}>{exp.duration}</span>
+                                    <h3 style={{ 
+                                        color: '#0f172a', 
+                                        fontWeight: 700, 
+                                        fontSize: '13px', 
+                                        margin: 0, 
+                                        marginBottom: '3px', 
+                                        letterSpacing: '0.2px', 
+                                        lineHeight: '1.4' 
+                                    }}>{exp.title}</h3>
+                                    <p style={{ 
+                                        color: '#6366f1', 
+                                        fontSize: '11px', 
+                                        margin: 0, 
+                                        marginBottom: '2px', 
+                                        letterSpacing: '0.2px' 
+                                    }}>{exp.company}</p>
+                                    <span style={{ 
+                                        color: '#64748b', 
+                                        fontSize: '10px', 
+                                        display: 'block', 
+                                        letterSpacing: '0.2px' 
+                                    }}>{exp.duration}</span>
+                                    {exp.description && (
+                                        <p style={{ 
+                                            color: '#475569', 
+                                            fontSize: '10px', 
+                                            lineHeight: '1.7', 
+                                            margin: '6px 0 0', 
+                                            letterSpacing: '0.2px',
+                                            wordSpacing: '0.5px'
+                                        }}>{exp.description}</p>
+                                    )}
                                     {i < experience.length - 1 && <div style={{ height: '1px', background: 'rgba(99,102,241,0.1)', marginTop: '10px' }} />}
                                 </div>
                             ))}
@@ -73,9 +109,44 @@ export default function TemplateMidnightPro({ data }) {
                         <CVSection title="PROJECTS" color="#6366f1">
                             {projects.map((proj, i) => (
                                 <div key={i} style={{ marginBottom: '12px' }}>
-                                    <h3 style={{ color: '#0f172a', fontWeight: 700, fontSize: '12px', margin: 0, marginBottom: '3px', letterSpacing: '0.4px', lineHeight: '1.4' }}>{proj.name}</h3>
-                                    {proj.tech && <p style={{ color: '#6366f1', fontSize: '10px', margin: 0, marginBottom: '2px', letterSpacing: '0.4px' }}>{proj.tech}</p>}
-                                    {proj.description && <p style={{ color: '#64748b', fontSize: '10px', lineHeight: '1.7', margin: 0, wordSpacing: '3px', letterSpacing: '0.4px', whiteSpace: 'pre-wrap' }}>{proj.description}</p>}
+                                    <h3 style={{ 
+                                        color: '#0f172a', 
+                                        fontWeight: 700, 
+                                        fontSize: '12px', 
+                                        margin: 0, 
+                                        marginBottom: '3px', 
+                                        letterSpacing: '0.2px', 
+                                        lineHeight: '1.4' 
+                                    }}>{proj.name}</h3>
+                                    {proj.tech && (
+                                        <p style={{ 
+                                            color: '#6366f1', 
+                                            fontSize: '10px', 
+                                            margin: 0, 
+                                            marginBottom: '2px', 
+                                            letterSpacing: '0.2px' 
+                                        }}>{proj.tech}</p>
+                                    )}
+                                    {proj.link && (
+                                        <p style={{ 
+                                            color: '#0ea5e9', 
+                                            fontSize: '9px', 
+                                            margin: 0, 
+                                            marginBottom: '2px', 
+                                            wordBreak: 'break-all',
+                                            letterSpacing: '0.1px'
+                                        }}>{proj.link}</p>
+                                    )}
+                                    {proj.description && (
+                                        <p style={{ 
+                                            color: '#64748b', 
+                                            fontSize: '10px', 
+                                            lineHeight: '1.7', 
+                                            margin: 0, 
+                                            letterSpacing: '0.2px',
+                                            wordSpacing: '0.5px'
+                                        }}>{proj.description}</p>
+                                    )}
                                 </div>
                             ))}
                         </CVSection>
@@ -87,11 +158,22 @@ export default function TemplateMidnightPro({ data }) {
 
                     {skills.length > 0 && (
                         <CVSection title="SKILLS" color="#8b5cf6">
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', justifyContent: 'flex-start' }}>
                                 {skills.map((skill, i) => (
                                     <span key={i} style={{
-                                        background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)',
-                                        color: '#6366f1', padding: '4px 8px', borderRadius: '12px', fontSize: '10px', fontWeight: 500
+                                        background: 'rgba(99,102,241,0.1)', 
+                                        border: '1px solid rgba(99,102,241,0.3)',
+                                        color: '#6366f1', 
+                                        padding: '6px 12px', 
+                                        borderRadius: '12px', 
+                                        fontSize: '10px', 
+                                        fontWeight: 500,
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        height: '24px',
+                                        lineHeight: '1',
+                                        verticalAlign: 'middle'
                                     }}>{skill}</span>
                                 ))}
                             </div>
@@ -134,6 +216,19 @@ export default function TemplateMidnightPro({ data }) {
                             ))}
                         </CVSection>
                     )}
+
+                    {customSections.map((section) => (
+                        section.title && section.items.length > 0 && (
+                            <CVSection key={section.id} title={section.title.toUpperCase()} color="#8b5cf6">
+                                {section.items.map((item) => (
+                                    <div key={item.id} style={{ marginBottom: '10px' }}>
+                                        {item.title && <h3 style={{ color: '#0f172a', fontSize: '12px', fontWeight: 700, margin: 0 }}>{item.title}</h3>}
+                                        {item.description && <p style={{ color: '#64748b', fontSize: '10px', lineHeight: '1.7', margin: '4px 0 0', whiteSpace: 'pre-wrap' }}>{item.description}</p>}
+                                    </div>
+                                ))}
+                            </CVSection>
+                        )
+                    ))}
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ const TEMPLATES = [
     { id: 2, name: 'Creative Bloom', colors: ['#ec4899', '#f43f5e'], preview: 'bg-gradient-to-br from-pink-900 to-rose-900' },
     { id: 3, name: 'Ocean Breeze', colors: ['#0ea5e9', '#06b6d4'], preview: 'bg-gradient-to-br from-sky-900 to-cyan-900' },
     { id: 4, name: 'Forest Mint', colors: ['#10b981', '#059669'], preview: 'bg-gradient-to-br from-emerald-900 to-green-900' },
+    { id: 5, name: 'Simple Clean', colors: ['#000000', '#333333'], preview: 'bg-gradient-to-br from-gray-900 to-gray-800' },
 ]
 
 const FEATURES = [
@@ -146,40 +147,78 @@ export default function HomePage({ navigate }) {
         }
         console.log('🛠️ Skills:', skills)
 
-        // Extract experience
+        // Extract experience with descriptions
         const experience = []
-        const expMatches = text.matchAll(/([\w\s\/\.]+developer)\s+([A-Z]+)\s+-\s+([^|]+?)\|\s*([^\n]+)/gi)
-        for (const match of expMatches) {
-            experience.push({
-                title: match[1].trim(),
-                company: match[2].trim(),
-                duration: match[4].trim(),
-                description: ''
-            })
+        const expText = text.match(/Experience[\s\S]*?(?=Education|Projects|Contact|$)/i)?.[0] || ''
+        
+        // Split by job entries
+        const jobBlocks = expText.split(/(?=(?:React|.NET|Full Stack|Software|Frontend|Backend)[\s\w]*(?:Developer|Engineer))/i)
+        
+        for (const block of jobBlocks) {
+            if (block.length < 20) continue
+            
+            const titleMatch = block.match(/^([\w\s/.]+(?:Developer|Engineer|Manager|Designer))/i)
+            const companyMatch = block.match(/(?:at\s+|@\s+)([A-Z][\w\s&]+?)(?:\s+-|\s+\||\n)/i)
+            const durationMatch = block.match(/((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{4})[\s\w,-]+(?:Present|\d{4}))/i)
+            const locationMatch = block.match(/(?:-|\|)\s*([A-Z][\w\s,]+?)(?:\||\n|$)/i)
+            
+            if (titleMatch) {
+                experience.push({
+                    title: titleMatch[1].trim(),
+                    company: companyMatch ? companyMatch[1].trim() : '',
+                    duration: durationMatch ? durationMatch[1].trim() : '',
+                    location: locationMatch ? locationMatch[1].trim() : '',
+                    description: ''
+                })
+            }
         }
         console.log('💼 Experience:', experience)
 
         // Extract education
         const education = []
-        const eduMatches = text.matchAll(/([^\n]+?)\s+\/\s+([A-Z]+)\s+\((\d{4})\)/g)
-        for (const match of eduMatches) {
-            education.push({
-                institution: match[1].trim(),
-                degree: match[2].trim(),
-                year: match[3]
-            })
+        const eduText = text.match(/Education[\s\S]*?(?=Languages|Hobbies|Projects|$)/i)?.[0] || ''
+        
+        const eduLines = eduText.split('\n').filter(l => l.trim().length > 5)
+        for (let i = 0; i < eduLines.length; i++) {
+            const line = eduLines[i]
+            const degreeMatch = line.match(/([A-Z]{2,}|Bachelor|Master|Degree)/i)
+            const yearMatch = line.match(/\((\d{4})\)/)
+            
+            if (degreeMatch && yearMatch) {
+                const schoolMatch = line.split(/\/|\s{2,}/)[0]
+                education.push({
+                    degree: degreeMatch[1],
+                    school: schoolMatch.trim(),
+                    year: yearMatch[1],
+                    gpa: ''
+                })
+            }
         }
         console.log('🎓 Education:', education)
 
         // Extract projects
         const projects = []
-        const projectMatches = text.matchAll(/([A-Z][\w\s-]+)\s+(https:\/\/[a-z0-9-]+\.netlify\.app\/)\s+([^\n]{50,200})/gi)
-        for (const match of projectMatches) {
-            projects.push({
-                name: match[1].trim(),
-                description: match[3].trim(),
-                technologies: match[2]
-            })
+        const projText = text.match(/Projects[\s\S]*?(?=Contact|Education|Languages|$)/i)?.[0] || ''
+        
+        const urlMatches = [...projText.matchAll(/(https?:\/\/[^\s]+)/g)]
+        for (const match of urlMatches) {
+            const url = match[1]
+            const startIdx = match.index
+            const beforeUrl = projText.substring(Math.max(0, startIdx - 100), startIdx)
+            const afterUrl = projText.substring(startIdx + url.length, startIdx + url.length + 200)
+            
+            const nameMatch = beforeUrl.match(/([A-Z][\w\s-]+)\s*$/)
+            const descMatch = afterUrl.match(/^\s*([^\n]{30,})/)
+            
+            if (nameMatch) {
+                projects.push({
+                    name: nameMatch[1].trim(),
+                    link: url,
+                    description: descMatch ? descMatch[1].trim() : '',
+                    tech: '',
+                    year: ''
+                })
+            }
         }
         console.log('🚀 Projects:', projects)
 
@@ -207,7 +246,8 @@ export default function HomePage({ navigate }) {
             education,
             projects,
             languages,
-            certifications: []
+            certifications: [],
+            customSections: []
         }
         
         console.log('✅ Final Result:', result)
@@ -247,11 +287,10 @@ export default function HomePage({ navigate }) {
         maxFiles: 1
     })
 
-    const startFresh = (templateId = 0) => {
+    const startFresh = () => {
         navigate('editor', {
             personal: { name: '', email: '', phone: '', linkedin: '', website: '', location: '', title: '' },
-            summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: [],
-            templateId
+            summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: [], customSections: []
         })
     }
 
@@ -363,7 +402,7 @@ export default function HomePage({ navigate }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                         {TEMPLATES.map((t) => (
-                            <div key={t.id} onClick={() => startFresh(t.id)} className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-gray-200 hover:border-indigo-500/50 transition-all hover:-translate-y-2 shadow-sm">
+                            <div key={t.id} onClick={startFresh} className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-gray-200 hover:border-indigo-500/50 transition-all hover:-translate-y-2 shadow-sm">
                                 <div className={`h-48 ${t.preview} relative p-6 flex flex-col justify-end overflow-hidden`}>
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                                         <button className="bg-white text-black text-xs font-bold px-4 py-2 rounded-lg">Use Template</button>
