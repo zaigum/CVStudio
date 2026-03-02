@@ -4,7 +4,10 @@ import EditorPage from './pages/EditorPage'
 import PreviewPage from './pages/PreviewPage'
 
 function App() {
-    const [currentPage, setCurrentPage] = useState('home')
+    const [currentPage, setCurrentPage] = useState(() => {
+        const hash = window.location.hash.slice(1) || 'home'
+        return hash
+    })
     const [cvData, setCvData] = useState(null)
     const [selectedTemplate, setSelectedTemplate] = useState(0)
 
@@ -43,42 +46,35 @@ function App() {
     const navigate = (page, data = null) => {
         if (data) {
             try {
-                // Validate data doesn't have circular references
                 JSON.stringify(data)
                 setCvData(data)
             } catch (e) {
                 console.error('Navigation data error:', e)
-                // Set clean default data
                 setCvData({
                     personal: { name: '', email: '', phone: '', linkedin: '', website: '', location: '', title: '' },
                     summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: []
                 })
             }
         }
+        window.location.hash = page
         setCurrentPage(page)
     }
 
+    // Handle browser back/forward
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.slice(1) || 'home'
+            setCurrentPage(hash)
+        }
+        window.addEventListener('hashchange', handleHashChange)
+        return () => window.removeEventListener('hashchange', handleHashChange)
+    }, [])
+
     return (
         <div className="min-h-screen animated-bg">
-            {currentPage === 'home' && (
-                <HomePage navigate={navigate} />
-            )}
-            {currentPage === 'editor' && (
-                <EditorPage
-                    navigate={navigate}
-                    cvData={cvData}
-                    setCvData={setCvData}
-                    selectedTemplate={selectedTemplate}
-                    setSelectedTemplate={setSelectedTemplate}
-                />
-            )}
-            {currentPage === 'preview' && (
-                <PreviewPage
-                    navigate={navigate}
-                    cvData={cvData}
-                    selectedTemplate={selectedTemplate}
-                />
-            )}
+            {currentPage === 'home' && <HomePage navigate={navigate} />}
+            {currentPage === 'editor' && <EditorPage navigate={navigate} cvData={cvData} setCvData={setCvData} selectedTemplate={selectedTemplate} setSelectedTemplate={setSelectedTemplate} />}
+            {currentPage === 'preview' && <PreviewPage navigate={navigate} cvData={cvData} selectedTemplate={selectedTemplate} />}
         </div>
     )
 }
