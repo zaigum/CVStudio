@@ -85,16 +85,27 @@ export default function TemplateExecutive({ data }) {
                 <div style={{ width: '220px', background: '#f8fafc', padding: '32px 24px', borderLeft: '1px solid #e2e8f0' }}>
                     {skills.length > 0 && (
                         <ExecSection title="SKILLS" sidebar>
-                            {skills.map((skill, i) => (
-                                <div key={i} style={{ marginBottom: '6px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                                        <span style={{ color: '#1e293b', fontSize: '11px' }}>{skill}</span>
-                                    </div>
-                                    <div style={{ height: '3px', background: '#e2e8f0', borderRadius: '2px' }}>
-                                        <div style={{ height: '3px', background: '#3b82f6', borderRadius: '2px', width: `${Math.random() * 30 + 70}%` }} />
-                                    </div>
-                                </div>
-                            ))}
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'flex-start' }}>
+                                {skills.map((skill, i) => (
+                                    <span key={i} style={{
+                                        background: '#eaf2ff',
+                                        border: '1px solid #bfdbfe',
+                                        color: '#0f172a',
+                                        padding: '6px 10px',
+                                        borderRadius: '14px',
+                                        fontSize: '11px',
+                                        fontWeight: 600,
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        lineHeight: 1,
+                                        minHeight: '24px',
+                                        boxSizing: 'border-box'
+                                    }}>
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
                         </ExecSection>
                     )}
 
