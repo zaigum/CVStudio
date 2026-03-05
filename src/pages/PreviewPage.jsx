@@ -85,42 +85,42 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Navbar */}
-            <nav className="glass fixed top-0 left-0 right-0 z-50 px-6 py-3 flex items-center gap-4 no-print"
+            <nav className="glass fixed top-0 left-0 right-0 z-50 px-3 md:px-6 py-3 flex items-center gap-2 md:gap-4 no-print"
                 style={{ borderBottom: '1px solid rgba(99,102,241,0.15)' }}>
-                <button onClick={() => navigate('editor')} className="btn-secondary py-2 px-3">
+                <button onClick={() => navigate('editor')} className="btn-secondary py-2 px-2 md:px-3">
                     <ArrowLeft size={16} />
                 </button>
 
-                <div className="flex-1 flex items-center gap-3">
-                    <span className="text-white font-semibold text-sm" style={{ fontFamily: 'Space Grotesk' }}>CV Preview</span>
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-full"
+                <div className="flex-1 flex items-center gap-2 md:gap-3">
+                    <span className="text-white font-semibold text-xs md:text-sm hidden sm:block" style={{ fontFamily: 'Space Grotesk' }}>CV Preview</span>
+                    <div className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 rounded-full"
                         style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                         <div className="w-2 h-2 rounded-full" style={{ background: tInfo.color }} />
-                        <span className="text-slate-400 text-xs">{tInfo.name}</span>
+                        <span className="text-slate-400 text-[10px] md:text-xs">{tInfo.name}</span>
                     </div>
                 </div>
 
-                <button onClick={() => navigate('editor')} className="btn-secondary py-2 px-4 text-sm">
-                    <Edit3 size={15} /> Edit
+                <button onClick={() => navigate('editor')} className="btn-secondary py-2 px-2 md:px-4 text-xs md:text-sm hidden sm:flex">
+                    <Edit3 size={14} className="md:w-[15px] md:h-[15px]" /> Edit
                 </button>
-                <button onClick={handlePrint} className="btn-secondary py-2 px-4 text-sm">
-                    <Printer size={15} /> Print
+                <button onClick={handlePrint} className="btn-secondary py-2 px-2 md:px-4 text-xs md:text-sm">
+                    <Printer size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden md:inline">Print</span>
                 </button>
-                <button onClick={handleDownloadPDF} className="btn-primary py-2 px-5 text-sm" disabled={downloading}>
-                    <Download size={15} /> {downloading ? 'Generating...' : 'Download PDF'}
+                <button onClick={handleDownloadPDF} className="btn-primary py-2 px-3 md:px-5 text-xs md:text-sm" disabled={downloading}>
+                    <Download size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden sm:inline">{downloading ? 'Generating...' : 'Download'}</span>
                 </button>
             </nav>
 
             {/* Preview area */}
             <div className="pt-16 flex-1 overflow-auto" style={{ background: '#ffffff' }}>
-                <div className="py-8 px-4 flex justify-center min-h-screen">
+                <div className="py-4 md:py-8 px-2 md:px-4 flex justify-center min-h-screen">
                     <div style={{
-                        transform: window.innerWidth < 768 ? 'scale(0.5)' : 'scale(0.85)',
+                        transform: window.innerWidth < 640 ? 'scale(0.4)' : window.innerWidth < 768 ? 'scale(0.5)' : window.innerWidth < 1024 ? 'scale(0.7)' : 'scale(0.85)',
                         transformOrigin: 'top center',
                         boxShadow: '0 25px 80px rgba(0,0,0,0.6)',
                         borderRadius: '4px',
                         overflow: 'hidden',
-                        marginBottom: window.innerWidth < 768 ? '-50%' : '-8%',
+                        marginBottom: window.innerWidth < 640 ? '-60%' : window.innerWidth < 768 ? '-50%' : window.innerWidth < 1024 ? '-30%' : '-8%',
                     }}>
                         <div ref={componentRef}>
                             <TemplateComponent data={cvData} />
@@ -129,7 +129,7 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
                 </div>
 
                 {/* Template switcher at bottom */}
-                <div className="hidden md:flex fixed bottom-6 left-1/2 -translate-x-1/2 glass rounded-2xl px-4 py-3 gap-3 no-print"
+                <div className="hidden lg:flex fixed bottom-6 left-1/2 -translate-x-1/2 glass rounded-2xl px-4 py-3 gap-3 no-print"
                     style={{ border: '1px solid rgba(99,102,241,0.2)', zIndex: 40 }}>
                     {TEMPLATES_INFO.map(t => (
                         <button

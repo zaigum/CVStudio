@@ -305,71 +305,69 @@ export default function HomePage({ navigate }) {
             </div>
 
             {/* Navbar */}
-            <nav className="glass fixed top-0 left-0 right-0 z-50 px-8 py-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md">
-                <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#141e30] shadow-lg">
-                        <FileText size={18} color="white" />
+            <nav className="glass fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3 md:py-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md">
+                <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center bg-[#141e30] shadow-lg">
+                        <FileText size={16} className="md:w-[18px] md:h-[18px]" color="white" />
                     </div>
-                    <span className="text-gray-900 font-bold text-xl tracking-tight font-space">
+                    <span className="text-gray-900 font-bold text-lg md:text-xl tracking-tight font-space">
                         CV<span style={{ color: '#141e30' }}>Studio</span>
                     </span>
                 </div>
-                <button onClick={startFresh} className="btn-primary text-sm py-2 px-5 rounded-full flex items-center gap-2 hover:scale-105 transition-transform">
-                    <Sparkles size={15} /> New Start
+                <button onClick={startFresh} className="btn-primary text-xs md:text-sm py-2 px-3 md:px-5 rounded-full flex items-center gap-1 md:gap-2 hover:scale-105 transition-transform">
+                    <Sparkles size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden sm:inline">New</span> Start
                 </button>
             </nav>
 
-            {/* Main Content - Increased top padding (pt-32) and added more bottom padding (pb-32) */}
-            <div className="relative z-10 pt-36 pb-32 px-6">
+            {/* Main Content */}
+            <div className="relative z-10 pt-20 md:pt-36 pb-16 md:pb-32 px-4 md:px-6">
                 {/* Hero */}
-                <div className="max-w-6xl mx-auto text-center mb-20 animate-slide-up">
-                  
-
-                    <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight font-space tracking-tighter text-gray-900">
+                <div className="max-w-6xl mx-auto text-center mb-12 md:mb-20 animate-slide-up">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black mb-4 md:mb-6 leading-tight font-space tracking-tighter text-gray-900">
                         Craft Your <span style={{ color: '#141e30' }}>Resume</span>
                     </h1>
 
-                    <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-6 md:mb-10 leading-relaxed px-4">
                         Upload your PDF to extract details instantly or start from scratch with 5 premium templates designed for impact.
                     </p>
 
-                    <button onClick={startFresh} className="btn-primary text-lg py-4 px-10 rounded-2xl shadow-2xl shadow-indigo-500/40 hover:scale-105 transition-all">
-                        <Zap size={20} className="fill-current" /> Create Now <ArrowRight size={18} />
+                    <button onClick={startFresh} className="btn-primary text-sm md:text-lg py-3 md:py-4 px-6 md:px-10 rounded-2xl shadow-2xl shadow-indigo-500/40 hover:scale-105 transition-all">
+                        <Zap size={18} className="md:w-5 md:h-5 fill-current" /> Create Now <ArrowRight size={16} className="md:w-[18px] md:h-[18px]" />
                     </button>
                 </div>
 
                 {/* PDF Upload */}
-                <div className="max-w-3xl mx-auto mb-32">
-                    <div className="text-center mb-6">
-                        <p className="text-gray-500 text-xs tracking-widest uppercase">— Recruiters spend an average of 6 seconds per resume —</p>
+                <div className="max-w-3xl mx-auto mb-16 md:mb-32">
+                    <div className="text-center mb-4 md:mb-6">
+                        <p className="text-gray-500 text-[10px] md:text-xs tracking-widest uppercase px-4">— Recruiters spend an average of 6 seconds per resume —</p>
                     </div>
 
                     <div
                         {...getRootProps()}
-                        className={`relative rounded-3xl p-16 text-center cursor-pointer transition-all duration-500 border-2 border-dashed ${
+                        className={`relative rounded-2xl md:rounded-3xl p-8 md:p-16 text-center cursor-pointer transition-all duration-500 border-2 border-dashed ${
                             isDragActive ? 'border-indigo-500 bg-indigo-500/10 scale-105' : 'border-gray-300 bg-white hover:border-indigo-400 hover:bg-gray-50'
                         }`}
                     >
                         <input {...getInputProps()} />
                         {scanning ? (
-                            <div className="space-y-6">
-                                <div className="w-20 h-20 mx-auto rounded-2xl bg-indigo-500 flex items-center justify-center animate-pulse">
-                                    <FileText size={32} color="white" />
+                            <div className="space-y-4 md:space-y-6">
+                                <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-2xl bg-indigo-500 flex items-center justify-center animate-pulse">
+                                    <FileText size={24} className="md:w-8 md:h-8" color="white" />
                                 </div>
                                 <div>
-                                    <p className="text-gray-900 font-bold text-xl mb-2">Analyzing your experience...</p>
-                                    <div className="w-full max-w-xs mx-auto bg-white/10 rounded-full h-3 overflow-hidden">
+                                    <p className="text-gray-900 font-bold text-base md:text-xl mb-2">Analyzing your experience...</p>
+                                    <div className="w-full max-w-xs mx-auto bg-white/10 rounded-full h-2 md:h-3 overflow-hidden">
                                         <div className="h-full bg-indigo-500 transition-all duration-300" style={{ width: `${scanProgress}%` }} />
                                     </div>
                                 </div>
                             </div>
                         ) : (
-                            <div className="space-y-4">
-                                <div className="w-16 h-16 mx-auto rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-2">
-                                    <Upload size={32} />
+                            <div className="space-y-3 md:space-y-4">
+                                <div className="w-12 h-12 md:w-16 md:h-16 mx-auto rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-2">
+                                    <Upload size={24} className="md:w-8 md:h-8" />
                                 </div>
-                                <h3 className="text-gray-900 text-2xl font-bold">{isDragActive ? 'Drop it here!' : 'Drag & Drop your PDF'}</h3>
-                                <p className="text-gray-600">or click to browse your computer</p>
+                                <h3 className="text-gray-900 text-lg md:text-2xl font-bold">{isDragActive ? 'Drop it here!' : 'Drag & Drop your PDF'}</h3>
+                                <p className="text-gray-600 text-sm md:text-base">or click to browse your computer</p>
                                 <span className="inline-block px-3 py-1 rounded-md bg-gray-100 text-[10px] text-gray-600 font-bold uppercase tracking-widest">PDF only • Max 10MB</span>
                             </div>
                         )}
@@ -378,42 +376,42 @@ export default function HomePage({ navigate }) {
                 </div>
 
                 {/* Features Grid */}
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-32">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-16 md:mb-32">
                     {FEATURES.map((feature, i) => (
-                        <div key={i} className="p-8 rounded-3xl bg-white border border-gray-200 hover:border-indigo-500/30 transition-all hover:-translate-y-2 group shadow-sm">
-                            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
-                                <feature.icon size={24} />
+                        <div key={i} className="p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white border border-gray-200 hover:border-indigo-500/30 transition-all hover:-translate-y-2 group shadow-sm">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 md:mb-6 group-hover:scale-110 transition-transform">
+                                <feature.icon size={20} className="md:w-6 md:h-6" />
                             </div>
-                            <h4 className="text-gray-900 font-bold text-lg mb-3">{feature.title}</h4>
-                            <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
+                            <h4 className="text-gray-900 font-bold text-base md:text-lg mb-2 md:mb-3">{feature.title}</h4>
+                            <p className="text-gray-600 text-xs md:text-sm leading-relaxed">{feature.desc}</p>
                         </div>
                     ))}
                 </div>
 
                 {/* Templates Section */}
                 <div className="max-w-6xl mx-auto">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl font-black text-gray-900 mb-4 font-space">Choose Your <span style={{ color: '#141e30' }}>Style</span></h2>
-                        <p className="text-gray-600">Tailored templates for every industry</p>
+                    <div className="text-center mb-8 md:mb-16">
+                        <h2 className="text-2xl md:text-4xl font-black text-gray-900 mb-2 md:mb-4 font-space">Choose Your <span style={{ color: '#141e30' }}>Style</span></h2>
+                        <p className="text-gray-600 text-sm md:text-base">Tailored templates for every industry</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
                         {TEMPLATES.map((t) => (
-                            <div key={t.id} onClick={startFresh} className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-gray-200 hover:border-indigo-500/50 transition-all hover:-translate-y-2 shadow-sm">
-                                <div className={`h-48 ${t.preview} relative p-6 flex flex-col justify-end overflow-hidden`}>
+                            <div key={t.id} onClick={startFresh} className="group cursor-pointer rounded-xl md:rounded-2xl overflow-hidden bg-white border border-gray-200 hover:border-indigo-500/50 transition-all hover:-translate-y-2 shadow-sm">
+                                <div className={`h-32 md:h-48 ${t.preview} relative p-3 md:p-6 flex flex-col justify-end overflow-hidden`}>
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                                        <button className="bg-white text-black text-xs font-bold px-4 py-2 rounded-lg">Use Template</button>
+                                        <button className="bg-white text-black text-[10px] md:text-xs font-bold px-2 md:px-4 py-1 md:py-2 rounded-lg">Use Template</button>
                                     </div>
-                                    <div className="w-full space-y-2">
-                                        <div className="h-2 w-3/4 bg-white/30 rounded" />
-                                        <div className="h-2 w-1/2 bg-white/20 rounded" />
+                                    <div className="w-full space-y-1 md:space-y-2">
+                                        <div className="h-1 md:h-2 w-3/4 bg-white/30 rounded" />
+                                        <div className="h-1 md:h-2 w-1/2 bg-white/20 rounded" />
                                     </div>
                                 </div>
-                                <div className="p-5 flex justify-between items-center">
-                                    <span className="text-gray-900 font-bold text-sm">{t.name}</span>
+                                <div className="p-3 md:p-5 flex justify-between items-center">
+                                    <span className="text-gray-900 font-bold text-xs md:text-sm">{t.name}</span>
                                     <div className="flex -space-x-1">
                                         {t.colors.map((c, i) => (
-                                            <div key={i} className="w-3 h-3 rounded-full border border-black/50" style={{ background: c }} />
+                                            <div key={i} className="w-2 h-2 md:w-3 md:h-3 rounded-full border border-black/50" style={{ background: c }} />
                                         ))}
                                     </div>
                                 </div>

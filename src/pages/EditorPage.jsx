@@ -104,14 +104,14 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
     return (
         <div className="min-h-screen flex flex-col bg-[#f9fafb]">
             {/* Top navbar */}
-            <nav className="glass fixed top-0 left-0 right-0 z-50 px-6 py-3 flex items-center gap-4"
+            <nav className="glass fixed top-0 left-0 right-0 z-50 px-3 md:px-6 py-3 flex items-center gap-2 md:gap-4"
                 style={{ borderBottom: '1px solid rgba(99,102,241,0.15)' }}>
-                <button onClick={() => navigate('home')} className="btn-secondary py-2 px-3">
+                <button onClick={() => navigate('home')} className="btn-secondary py-2 px-2 md:px-3">
                     <ArrowLeft size={16} />
                 </button>
 
                 <div className="flex-1 flex items-center gap-2">
-                    <span className="text-gray-900 font-semibold text-sm hidden md:block" style={{ fontFamily: 'Space Grotesk' }}>CV Editor</span>
+                    <span className="text-gray-900 font-semibold text-xs md:text-sm hidden sm:block" style={{ fontFamily: 'Space Grotesk' }}>CV Editor</span>
                     {saveStatus && (
                         <span className="text-xs text-green-400 animate-fade-in">{saveStatus}</span>
                     )}
@@ -121,25 +121,25 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
                 <div className="relative">
                     <button
                         onClick={() => setShowTemplates(!showTemplates)}
-                        className="btn-secondary py-2 px-4 text-sm flex items-center gap-2"
+                        className="btn-secondary py-2 px-2 md:px-4 text-xs md:text-sm flex items-center gap-1 md:gap-2"
                     >
-                        <Layout size={15} />
+                        <Layout size={14} className="md:w-[15px] md:h-[15px]" />
                         <div className="w-3 h-3 rounded-full" style={{ background: t.color }} />
-                        <span className="hidden md:inline">{t.name}</span>
+                        <span className="hidden lg:inline">{t.name}</span>
                         {showTemplates ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     </button>
 
                     {showTemplates && (
-                        <div className="absolute right-0 top-12 glass rounded-xl p-3 z-50 w-56"
+                        <div className="absolute right-0 top-12 glass rounded-xl p-3 z-50 w-48 md:w-56"
                             style={{ border: '1px solid rgba(99,102,241,0.25)' }}>
                             {TEMPLATES.map(tmpl => (
                                 <button
                                     key={tmpl.id}
                                     onClick={() => { setSelectedTemplate(tmpl.id); setShowTemplates(false) }}
-                                    className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-all text-left"
+                                    className="w-full flex items-center gap-2 md:gap-3 p-2 rounded-lg hover:bg-white/5 transition-all text-left"
                                 >
-                                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${tmpl.preview}`} />
-                                    <span className="text-gray-900 text-sm flex-1">{tmpl.name}</span>
+                                    <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg bg-gradient-to-br ${tmpl.preview}`} />
+                                    <span className="text-gray-900 text-xs md:text-sm flex-1">{tmpl.name}</span>
                                     {selectedTemplate === tmpl.id && <Check size={14} style={{ color: '#6366f1' }} />}
                                 </button>
                             ))}
@@ -147,20 +147,20 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
                     )}
                 </div>
 
-                <button onClick={() => navigate('preview')} className="btn-primary py-2 px-5 text-sm">
-                    <Eye size={15} /> Preview
+                <button onClick={() => navigate('preview')} className="btn-primary py-2 px-3 md:px-5 text-xs md:text-sm">
+                    <Eye size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden sm:inline">Preview</span>
                 </button>
             </nav>
 
             <div className="pt-16 flex flex-1">
                 {/* Sidebar */}
-                <div className="w-16 md:w-56 glass fixed left-0 top-16 bottom-0 flex flex-col py-4 gap-1 px-2"
+                <div className="w-14 md:w-16 lg:w-56 glass fixed left-0 top-16 bottom-0 flex flex-col py-2 md:py-4 gap-1 px-1 md:px-2"
                     style={{ borderRight: '1px solid rgba(99,102,241,0.15)' }}>
                     {SECTIONS.map(sec => (
                         <button
                             key={sec.id}
                             onClick={() => setActiveSection(sec.id)}
-                            className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all text-left ${activeSection === sec.id
+                            className={`flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-3 rounded-lg md:rounded-xl transition-all text-left ${activeSection === sec.id
                                 ? 'text-indigo-600 bg-indigo-50'
                                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                                 }`}
@@ -168,14 +168,14 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
                                 border: '1px solid rgba(99,102,241,0.2)'
                             } : {}}
                         >
-                            <sec.icon size={17} style={{ flexShrink: 0 }} />
-                            <span className="text-sm font-medium hidden md:block">{sec.label}</span>
+                            <sec.icon size={16} className="md:w-[17px] md:h-[17px]" style={{ flexShrink: 0 }} />
+                            <span className="text-xs md:text-sm font-medium hidden lg:block">{sec.label}</span>
                         </button>
                     ))}
                 </div>
 
                 {/* Editor Content */}
-                <div className="ml-16 md:ml-56 flex-1 p-6 max-w-3xl">
+                <div className="ml-14 md:ml-16 lg:ml-56 flex-1 p-3 md:p-6 max-w-3xl">
                     <div className="animate-fade-in">
                         {renderSection()}
                     </div>
