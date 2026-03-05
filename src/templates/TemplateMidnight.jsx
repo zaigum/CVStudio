@@ -167,8 +167,13 @@ export default function TemplateMidnightPro({ data }) {
                                         borderRadius: '12px', 
                                         fontSize: '10px', 
                                         fontWeight: 500,
-                                        display: 'inline-block',
-                                        lineHeight: '1.35'
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        textAlign: 'center',
+                                        lineHeight: 1,
+                                        minHeight: '26px',
+                                        boxSizing: 'border-box'
                                     }}>{skill}</span>
                                 ))}
                             </div>
@@ -233,9 +238,20 @@ export default function TemplateMidnightPro({ data }) {
 function CVSection({ title, color, children }) {
     return (
         <div style={{ marginBottom: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', lineHeight: 1 }}>
                 <span style={{ width: '3px', height: '14px', background: color, borderRadius: '2px', display: 'inline-block' }} />
-                <h2 style={{ color: color, fontSize: '10px', fontWeight: 800, letterSpacing: '1.5px', margin: 0, textTransform: 'uppercase' }}>{title}</h2>
+                <h2 style={{
+                    color: color,
+                    fontSize: '10px',
+                    fontWeight: 800,
+                    letterSpacing: '1.5px',
+                    margin: 0,
+                    padding: 0,
+                    lineHeight: 1,
+                    textTransform: 'uppercase',
+                    position: 'relative',
+                    top: '0.5px'
+                }}>{title}</h2>
             </div>
             {children}
         </div>
