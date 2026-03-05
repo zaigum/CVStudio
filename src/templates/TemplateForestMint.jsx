@@ -61,11 +61,16 @@ export default function TemplateForestMint({ data }) {
                                     background: 'rgba(16,185,129,0.2)', 
                                     border: '1px solid rgba(52,211,153,0.4)',
                                     color: '#6ee7b7', 
-                                    padding: '5px 10px', 
+                                    padding: '6px 10px', 
                                     borderRadius: '12px', 
                                     fontSize: '10px',
-                                    display: 'inline-block',
-                                    lineHeight: '1.2'
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textAlign: 'center',
+                                    lineHeight: 1,
+                                    minHeight: '24px',
+                                    boxSizing: 'border-box'
                                 }}>{skill}</span>
                             ))}
                         </div>
@@ -165,7 +170,7 @@ function MintContact({ icon, value }) {
 function MintSideSection({ title, children }) {
     return (
         <div style={{ marginBottom: '20px' }}>
-            <h2 style={{ color: '#34d399', fontSize: '9px', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 10px', paddingBottom: '6px', borderBottom: '1px solid rgba(52,211,153,0.25)' }}>{title}</h2>
+            <h2 style={{ color: '#34d399', fontSize: '9px', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 10px', paddingBottom: '6px', lineHeight: 1, borderBottom: '1px solid rgba(52,211,153,0.25)' }}>{title}</h2>
             {children}
         </div>
     )
@@ -176,7 +181,7 @@ function MintSection({ title, children }) {
         <div style={{ marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{ width: '4px', height: '18px', background: 'linear-gradient(180deg, #10b981, #34d399)', borderRadius: '2px' }} />
-                <h2 style={{ color: '#064e3b', fontSize: '11px', fontWeight: 900, letterSpacing: '1.5px', margin: 0, textTransform: 'uppercase' }}>{title}</h2>
+                <h2 style={{ color: '#064e3b', fontSize: '11px', fontWeight: 900, letterSpacing: '1.5px', margin: 0, lineHeight: 1, textTransform: 'uppercase' }}>{title}</h2>
                 <div style={{ flex: 1, height: '1px', background: '#d1fae5' }} />
             </div>
             {children}

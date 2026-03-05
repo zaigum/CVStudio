@@ -140,10 +140,10 @@ export default function TemplateExecutive({ data }) {
 function ExecSection({ title, children, sidebar }) {
     return (
         <div style={{ marginBottom: sidebar ? '20px' : '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', lineHeight: 1 }}>
                 <h2 style={{
                     color: '#0f172a', fontSize: '9px', fontWeight: 900,
-                    letterSpacing: '2px', margin: 0, textTransform: 'uppercase'
+                    letterSpacing: '2px', margin: 0, lineHeight: 1, textTransform: 'uppercase'
                 }}>{title}</h2>
                 {!sidebar && <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }} />}
             </div>

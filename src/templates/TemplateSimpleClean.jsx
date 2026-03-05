@@ -86,13 +86,18 @@ export default function TemplateSimpleClean({ data }) {
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'flex-start' }}>
                         {skills.map((skill, i) => (
                             <span key={i} style={{
-                                padding: '5px 10px',
+                                padding: '6px 10px',
                                 border: '1px solid #ddd',
                                 borderRadius: '4px',
                                 fontSize: '11px',
                                 color: '#333',
-                                display: 'inline-block',
-                                lineHeight: '1.2'
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                textAlign: 'center',
+                                lineHeight: 1,
+                                minHeight: '24px',
+                                boxSizing: 'border-box'
                             }}>
                                 {skill}
                             </span>
@@ -176,8 +181,9 @@ function Section({ title, children }) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
-                marginBottom: '12px',
+                margin: '0 0 12px',
                 paddingBottom: '6px',
+                lineHeight: 1,
                 borderBottom: '1px solid #ddd'
             }}>
                 {title}

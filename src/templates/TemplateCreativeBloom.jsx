@@ -109,12 +109,17 @@ export default function TemplateCreativeBloom({ data }) {
                                         background: 'linear-gradient(135deg, rgba(236,72,153,0.12), rgba(244,63,94,0.12))',
                                         border: '1px solid rgba(236,72,153,0.3)',
                                         color: '#be185d', 
-                                        padding: '5px 10px', 
+                                        padding: '6px 10px', 
                                         borderRadius: '15px', 
                                         fontSize: '10px', 
                                         fontWeight: 500,
-                                        display: 'inline-block',
-                                        lineHeight: '1.2'
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        textAlign: 'center',
+                                        lineHeight: 1,
+                                        minHeight: '24px',
+                                        boxSizing: 'border-box'
                                     }}>{skill}</span>
                                 ))}
                             </div>
@@ -163,9 +168,9 @@ export default function TemplateCreativeBloom({ data }) {
 function BloomSection({ title, children, accent = '#ec4899' }) {
     return (
         <div style={{ marginBottom: '22px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', lineHeight: 1 }}>
                 <span style={{ color: accent, fontSize: '16px', fontWeight: 900 }}>✦</span>
-                <h2 style={{ color: '#1a1a2e', fontSize: '12px', fontWeight: 800, letterSpacing: '0.5px', margin: 0, textTransform: 'uppercase' }}>{title}</h2>
+                <h2 style={{ color: '#1a1a2e', fontSize: '12px', fontWeight: 800, letterSpacing: '0.5px', margin: 0, lineHeight: 1, textTransform: 'uppercase' }}>{title}</h2>
             </div>
             {children}
         </div>

@@ -107,12 +107,17 @@ export default function TemplateOceanBreeze({ data }) {
                                             <span key={i} style={{
                                                 background: '#0ea5e9', 
                                                 color: 'white',
-                                                padding: '5px 10px', 
+                                                padding: '6px 10px', 
                                                 borderRadius: '12px', 
                                                 fontSize: '10px', 
                                                 fontWeight: 600,
-                                                display: 'inline-block',
-                                                lineHeight: '1.2'
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                textAlign: 'center',
+                                                lineHeight: 1,
+                                                minHeight: '24px',
+                                                boxSizing: 'border-box'
                                             }}>{skill}</span>
                                         ))}
                                     </div>
@@ -167,7 +172,7 @@ function OceanSection({ title, children, sidebar }) {
                 <h2 style={{
                     color: '#0369a1', fontSize: sidebar ? '10px' : '11px', fontWeight: 900,
                     letterSpacing: '1.5px', margin: 0, textTransform: 'uppercase',
-                    paddingBottom: '6px', borderBottom: sidebar ? 'none' : '2px solid #bae6fd'
+                    paddingBottom: '6px', lineHeight: 1, borderBottom: sidebar ? 'none' : '2px solid #bae6fd'
                 }}>{title}</h2>
             </div>
             {children}
