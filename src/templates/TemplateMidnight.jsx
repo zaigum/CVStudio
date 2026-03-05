@@ -19,7 +19,6 @@ export default function TemplateMidnightPro({ data }) {
             margin: '0 auto',
             padding: 0,
             position: 'relative',
-            overflow: 'hidden',
             boxSizing: 'border-box'
         }}>
 
@@ -164,12 +163,12 @@ export default function TemplateMidnightPro({ data }) {
                                         background: 'rgba(20,30,48,0.1)', 
                                         border: '1px solid rgba(20,30,48,0.3)',
                                         color: '#141e30', 
-                                        padding: '5px 10px', 
+                                        padding: '6px 10px', 
                                         borderRadius: '12px', 
                                         fontSize: '10px', 
                                         fontWeight: 500,
                                         display: 'inline-block',
-                                        lineHeight: '1.2'
+                                        lineHeight: '1.35'
                                     }}>{skill}</span>
                                 ))}
                             </div>

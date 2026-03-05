@@ -47,14 +47,10 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
             element.style.width = '210mm'
             
             const canvas = await html2canvas(element, {
-                scale: 4,
+                scale: 3,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff',
-                width: 794,
-                height: 1123,
-                windowWidth: 794,
-                windowHeight: 1123
             })
             
             // Restore original styles
@@ -69,7 +65,15 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
                 hotfixes: ['px_scaling']
             })
 
-            pdf.addImage(imgData, 'PNG', 0, 0, 794, 1123, '', 'FAST')
+            const pageWidth = 794
+            const pageHeight = 1123
+            const fitRatio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height)
+            const renderWidth = canvas.width * fitRatio
+            const renderHeight = canvas.height * fitRatio
+            const offsetX = (pageWidth - renderWidth) / 2
+            const offsetY = (pageHeight - renderHeight) / 2
+
+            pdf.addImage(imgData, 'PNG', offsetX, offsetY, renderWidth, renderHeight, '', 'FAST')
             pdf.save(`${cvData?.personal?.name || 'CV'}_Resume.pdf`)
         } catch (error) {
             console.error('PDF generation error:', error)
