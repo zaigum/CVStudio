@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react'
-import { ArrowLeft, Download, Printer, Edit3 } from 'lucide-react'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
+import { ArrowLeft, Download, Printer, Edit3, FileJson, FileText as FileTextIcon, History } from 'lucide-react'
+import { generateHighQualityPDF } from '../utils/pdfGenerator'
+import { exportToJSON, exportToWord } from '../utils/exportUtils'
+import VersionHistory from '../components/VersionHistory'
 import TemplateMidnightPro from '../templates/TemplateMidnight'
 import TemplateExecutive from '../templates/TemplateExecutive'
 import TemplateCreativeBloom from '../templates/TemplateCreativeBloom'
@@ -27,9 +28,11 @@ const TemplateComponents = [
     TemplateSimpleClean,
 ]
 
-export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
+export default function PreviewPage({ navigate, cvData, selectedTemplate, setCvData }) {
     const componentRef = useRef(null)
     const [downloading, setDownloading] = useState(false)
+    const [showExportMenu, setShowExportMenu] = useState(false)
+    const [showVersionHistory, setShowVersionHistory] = useState(false)
 
     const handlePrint = () => {
         window.print()
@@ -37,50 +40,14 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
 
     const handleDownloadPDF = async () => {
         setDownloading(true)
-        try {
-            const element = componentRef.current
-            
-            // Temporarily increase size for better quality
-            const originalWidth = element.style.width
-            const originalTransform = element.parentElement.style.transform
-            element.parentElement.style.transform = 'scale(1)'
-            element.style.width = '210mm'
-            
-            const canvas = await html2canvas(element, {
-                scale: 3,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-            })
-            
-            // Restore original styles
-            element.style.width = originalWidth
-            element.parentElement.style.transform = originalTransform
-
-            const imgData = canvas.toDataURL('image/png', 1.0)
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'px',
-                format: [794, 1123],
-                hotfixes: ['px_scaling']
-            })
-
-            const pageWidth = 794
-            const pageHeight = 1123
-            const fitRatio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height)
-            const renderWidth = canvas.width * fitRatio
-            const renderHeight = canvas.height * fitRatio
-            const offsetX = (pageWidth - renderWidth) / 2
-            const offsetY = (pageHeight - renderHeight) / 2
-
-            pdf.addImage(imgData, 'PNG', offsetX, offsetY, renderWidth, renderHeight, '', 'FAST')
-            pdf.save(`${cvData?.personal?.name || 'CV'}_Resume.pdf`)
-        } catch (error) {
-            console.error('PDF generation error:', error)
+        const result = await generateHighQualityPDF(
+            componentRef.current, 
+            `${cvData?.personal?.name || 'CV'}_Resume.pdf`
+        )
+        if (!result.success) {
             alert('Error generating PDF. Please try Print option.')
-        } finally {
-            setDownloading(false)
         }
+        setDownloading(false)
     }
 
     const TemplateComponent = TemplateComponents[selectedTemplate] || TemplateMidnightPro
@@ -107,16 +74,39 @@ export default function PreviewPage({ navigate, cvData, selectedTemplate }) {
                 <button onClick={() => navigate('editor')} className="btn-secondary py-2 px-2 md:px-4 text-xs md:text-sm hidden sm:flex">
                     <Edit3 size={14} className="md:w-[15px] md:h-[15px]" /> Edit
                 </button>
+                <button onClick={() => setShowVersionHistory(!showVersionHistory)} className="btn-secondary py-2 px-2 md:px-3">
+                    <History size={14} />
+                </button>
                 <button onClick={handlePrint} className="btn-secondary py-2 px-2 md:px-4 text-xs md:text-sm">
                     <Printer size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden md:inline">Print</span>
                 </button>
-                <button onClick={handleDownloadPDF} className="btn-primary py-2 px-3 md:px-5 text-xs md:text-sm" disabled={downloading}>
-                    <Download size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden sm:inline">{downloading ? 'Generating...' : 'Download'}</span>
-                </button>
+                <div className="relative">
+                    <button onClick={() => setShowExportMenu(!showExportMenu)} className="btn-primary py-2 px-3 md:px-5 text-xs md:text-sm">
+                        <Download size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden sm:inline">Export</span>
+                    </button>
+                    {showExportMenu && (
+                        <div className="absolute right-0 top-12 glass rounded-xl p-2 z-50 w-40">
+                            <button onClick={() => { handleDownloadPDF(); setShowExportMenu(false) }} className="w-full text-left px-3 py-2 text-xs hover:bg-white/5 rounded flex items-center gap-2">
+                                <Download size={12} /> PDF
+                            </button>
+                            <button onClick={() => { exportToJSON(cvData); setShowExportMenu(false) }} className="w-full text-left px-3 py-2 text-xs hover:bg-white/5 rounded flex items-center gap-2">
+                                <FileJson size={12} /> JSON
+                            </button>
+                            <button onClick={() => { exportToWord(cvData); setShowExportMenu(false) }} className="w-full text-left px-3 py-2 text-xs hover:bg-white/5 rounded flex items-center gap-2">
+                                <FileTextIcon size={12} /> Word
+                            </button>
+                        </div>
+                    )}
+                </div>
             </nav>
 
             {/* Preview area */}
             <div className="pt-16 flex-1 overflow-auto" style={{ background: '#ffffff' }}>
+                {showVersionHistory && (
+                    <div className="fixed right-4 top-20 z-50 w-80">
+                        <VersionHistory cvData={cvData} onRestore={(data) => { setCvData(data); setShowVersionHistory(false) }} />
+                    </div>
+                )}
                 <div className="py-4 md:py-8 px-2 md:px-4 flex justify-center min-h-screen">
                     <div style={{
                         transform: window.innerWidth < 640 ? 'scale(0.4)' : window.innerWidth < 768 ? 'scale(0.5)' : window.innerWidth < 1024 ? 'scale(0.7)' : 'scale(0.85)',
