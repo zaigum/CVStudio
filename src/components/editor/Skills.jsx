@@ -5,6 +5,8 @@ import { Section } from './SharedComponents'
 export default function Skills({ cvData, setCvData }) {
     const [newSkill, setNewSkill] = useState('')
 
+    if (!cvData) return null
+
     const addSkill = () => {
         if (newSkill.trim()) {
             setCvData(prev => ({ ...prev, skills: [...(prev.skills || []), newSkill.trim()] }))

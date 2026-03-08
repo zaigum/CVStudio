@@ -2,6 +2,8 @@ import { GraduationCap, Plus } from 'lucide-react'
 import { Section, Field, ItemCard } from './SharedComponents'
 
 export default function Education({ cvData, addItem, removeItem, updateItem }) {
+    if (!cvData) return null
+    
     return (
         <Section title="Education" icon={GraduationCap}>
             {(cvData.education || []).map((edu, i) => (

@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import HomePage from './pages/HomePage'
 import EditorPage from './pages/EditorPage'
 import PreviewPage from './pages/PreviewPage'
+import useUndoRedo from './hooks/useUndoRedo'
 
 function App() {
     const [currentPage, setCurrentPage] = useState(() => {
         const hash = window.location.hash.slice(1) || 'home'
         return hash
     })
-    const [cvData, setCvData] = useState(null)
+    const { state: cvData, setState: setCvData, undo, redo, canUndo, canRedo } = useUndoRedo(null)
     const [selectedTemplate, setSelectedTemplate] = useState(0)
 
     // Save to localStorage
@@ -47,7 +48,9 @@ function App() {
         if (data) {
             try {
                 JSON.stringify(data)
-                setCvData(data)
+                const cleanData = { ...data }
+                delete cleanData.templateId
+                setCvData(cleanData)
             } catch (e) {
                 console.error('Navigation data error:', e)
                 setCvData({
@@ -55,6 +58,11 @@ function App() {
                     summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: []
                 })
             }
+        } else if (page === 'editor' && !cvData) {
+            setCvData({
+                personal: { name: '', email: '', phone: '', linkedin: '', website: '', location: '', title: '' },
+                summary: '', skills: [], experience: [], education: [], projects: [], languages: [], certifications: []
+            })
         }
         window.location.hash = page
         setCurrentPage(page)
@@ -73,8 +81,8 @@ function App() {
     return (
         <div className="min-h-screen animated-bg">
             {currentPage === 'home' && <HomePage navigate={navigate} />}
-            {currentPage === 'editor' && <EditorPage navigate={navigate} cvData={cvData} setCvData={setCvData} selectedTemplate={selectedTemplate} setSelectedTemplate={setSelectedTemplate} />}
-            {currentPage === 'preview' && <PreviewPage navigate={navigate} cvData={cvData} selectedTemplate={selectedTemplate} />}
+            {currentPage === 'editor' && <EditorPage navigate={navigate} cvData={cvData} setCvData={setCvData} selectedTemplate={selectedTemplate} setSelectedTemplate={setSelectedTemplate} undo={undo} redo={redo} canUndo={canUndo} canRedo={canRedo} />}
+            {currentPage === 'preview' && <PreviewPage navigate={navigate} cvData={cvData} selectedTemplate={selectedTemplate} setCvData={setCvData} />}
         </div>
     )
 }

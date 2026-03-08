@@ -2,6 +2,8 @@ import { User } from 'lucide-react'
 import { Section, Field } from './SharedComponents'
 
 export default function PersonalInfo({ cvData, update }) {
+    if (!cvData) return null
+    
     return (
         <Section title="Personal Information" icon={User}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

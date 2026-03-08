@@ -2,6 +2,8 @@ import { Globe, Plus } from 'lucide-react'
 import { Section, Field, ItemCard } from './SharedComponents'
 
 export default function Languages({ cvData, addItem, removeItem, updateItem }) {
+    if (!cvData) return null
+    
     return (
         <Section title="Languages" icon={Globe}>
             {(cvData.languages || []).map((lang, i) => (

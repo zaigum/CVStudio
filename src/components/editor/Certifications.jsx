@@ -2,6 +2,8 @@ import { Award, Plus } from 'lucide-react'
 import { Section, Field, ItemCard } from './SharedComponents'
 
 export default function Certifications({ cvData, addItem, removeItem, updateItem }) {
+    if (!cvData) return null
+    
     return (
         <Section title="Certifications" icon={Award}>
             {(cvData.certifications || []).map((cert, i) => (

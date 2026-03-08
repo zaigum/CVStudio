@@ -2,6 +2,8 @@ import { Briefcase, Plus } from 'lucide-react'
 import { Section, Field, ItemCard } from './SharedComponents'
 
 export default function Experience({ cvData, addItem, removeItem, updateItem }) {
+    if (!cvData) return null
+    
     return (
         <Section title="Work Experience" icon={Briefcase}>
             {(cvData.experience || []).map((exp, i) => (

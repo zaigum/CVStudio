@@ -2,6 +2,8 @@ import { FileText, Plus, Trash2 } from 'lucide-react'
 import { Section, Field, ItemCard } from './SharedComponents'
 
 export default function CustomSections({ cvData, setCvData }) {
+    if (!cvData) return null
+    
     const customSections = cvData?.customSections || []
 
     const addSection = () => {

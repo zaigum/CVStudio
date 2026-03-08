@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
-import { ArrowLeft, Eye, User, Briefcase, GraduationCap, Code, Award, Globe, FileText, ChevronDown, ChevronUp, Layout, Check } from 'lucide-react'
+import { ArrowLeft, Eye, User, Briefcase, GraduationCap, Code, Award, Globe, FileText, ChevronDown, ChevronUp, Layout, Check, Undo2, Redo2, Download, Lightbulb, SpellCheck, Grid3x3 } from 'lucide-react'
+import KeyboardShortcuts from '../components/KeyboardShortcuts'
+import DragDropSection from '../components/DragDropSection'
+import TemplateComparison from '../components/TemplateComparison'
+import { exportToJSON, exportToWord } from '../utils/exportUtils'
+import { getSummarySuggestions, getSkillSuggestions, improveDescription } from '../utils/aiSuggestions'
+import { checkSpelling, autoCorrect } from '../utils/spellCheck'
 import PersonalInfo from '../components/editor/PersonalInfo'
 import Summary from '../components/editor/Summary'
 import Experience from '../components/editor/Experience'
@@ -9,6 +15,22 @@ import Projects from '../components/editor/Projects'
 import Certifications from '../components/editor/Certifications'
 import Languages from '../components/editor/Languages'
 import CustomSections from '../components/editor/CustomSections'
+
+import TemplateMidnightPro from '../templates/TemplateMidnight'
+import TemplateExecutive from '../templates/TemplateExecutive'
+import TemplateCreativeBloom from '../templates/TemplateCreativeBloom'
+import TemplateOceanBreeze from '../templates/TemplateOceanBreeze'
+import TemplateForestMint from '../templates/TemplateForestMint'
+import TemplateSimpleClean from '../templates/TemplateSimpleClean'
+
+const TEMPLATE_COMPONENTS = [
+    TemplateMidnightPro,
+    TemplateExecutive,
+    TemplateCreativeBloom,
+    TemplateOceanBreeze,
+    TemplateForestMint,
+    TemplateSimpleClean,
+]
 
 const TEMPLATES = [
     { id: 0, name: 'Midnight Pro', color: '#6366f1', preview: 'from-indigo-600 to-purple-600' },
@@ -31,10 +53,15 @@ const SECTIONS = [
     { id: 'custom', icon: FileText, label: 'Custom Sections' },
 ]
 
-export default function EditorPage({ navigate, cvData, setCvData, selectedTemplate, setSelectedTemplate }) {
+export default function EditorPage({ navigate, cvData, setCvData, selectedTemplate, setSelectedTemplate, undo, redo, canUndo, canRedo }) {
     const [activeSection, setActiveSection] = useState('personal')
     const [showTemplates, setShowTemplates] = useState(false)
     const [saveStatus, setSaveStatus] = useState('')
+    const [sections, setSections] = useState(SECTIONS)
+    const [showComparison, setShowComparison] = useState(false)
+    const [showAISuggestions, setShowAISuggestions] = useState(false)
+    const [showExportMenu, setShowExportMenu] = useState(false)
+    const [spellErrors, setSpellErrors] = useState([])
 
     // Auto-save indicator
     useEffect(() => {
@@ -44,6 +71,19 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
             return () => clearTimeout(timer)
         }
     }, [cvData])
+
+    // Spell check
+    useEffect(() => {
+        const text = cvData?.summary || ''
+        const { errors } = checkSpelling(text)
+        setSpellErrors(errors)
+    }, [cvData?.summary])
+
+    const handleAutoCorrect = () => {
+        if (cvData?.summary) {
+            update('summary', autoCorrect(cvData.summary))
+        }
+    }
 
     const update = (path, value) => {
         const keys = path.split('.')
@@ -147,6 +187,43 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
                     )}
                 </div>
 
+                {canUndo && (
+                    <button onClick={undo} className="btn-secondary py-2 px-2 md:px-3" title="Undo (Ctrl+Z)">
+                        <Undo2 size={14} />
+                    </button>
+                )}
+                {canRedo && (
+                    <button onClick={redo} className="btn-secondary py-2 px-2 md:px-3" title="Redo (Ctrl+Y)">
+                        <Redo2 size={14} />
+                    </button>
+                )}
+                
+                <div className="relative">
+                    <button onClick={() => setShowExportMenu(!showExportMenu)} className="btn-secondary py-2 px-2 md:px-3">
+                        <Download size={14} />
+                    </button>
+                    {showExportMenu && (
+                        <div className="absolute right-0 top-12 glass rounded-xl p-2 z-50 w-40">
+                            <button onClick={() => { exportToJSON(cvData); setShowExportMenu(false) }} className="w-full text-left px-3 py-2 text-xs hover:bg-white/5 rounded">Export JSON</button>
+                            <button onClick={() => { exportToWord(cvData); setShowExportMenu(false) }} className="w-full text-left px-3 py-2 text-xs hover:bg-white/5 rounded">Export Word</button>
+                        </div>
+                    )}
+                </div>
+
+                <button onClick={() => setShowComparison(true)} className="btn-secondary py-2 px-2 md:px-3" title="Compare Templates">
+                    <Grid3x3 size={14} />
+                </button>
+
+                <button onClick={() => setShowAISuggestions(!showAISuggestions)} className="btn-secondary py-2 px-2 md:px-3" title="AI Suggestions">
+                    <Lightbulb size={14} />
+                </button>
+
+                {spellErrors.length > 0 && (
+                    <button onClick={handleAutoCorrect} className="btn-secondary py-2 px-2 md:px-3 text-orange-500" title="Fix Spelling">
+                        <SpellCheck size={14} />
+                    </button>
+                )}
+
                 <button onClick={() => navigate('preview')} className="btn-primary py-2 px-3 md:px-5 text-xs md:text-sm">
                     <Eye size={14} className="md:w-[15px] md:h-[15px]" /> <span className="hidden sm:inline">Preview</span>
                 </button>
@@ -154,33 +231,60 @@ export default function EditorPage({ navigate, cvData, setCvData, selectedTempla
 
             <div className="pt-16 flex flex-1">
                 {/* Sidebar */}
-                <div className="w-14 md:w-16 lg:w-56 glass fixed left-0 top-16 bottom-0 flex flex-col py-2 md:py-4 gap-1 px-1 md:px-2"
+                <div className="w-14 md:w-16 lg:w-56 glass fixed left-0 top-16 bottom-0 flex flex-col py-2 md:py-4 px-1 md:px-2"
                     style={{ borderRight: '1px solid rgba(99,102,241,0.15)' }}>
-                    {SECTIONS.map(sec => (
-                        <button
-                            key={sec.id}
-                            onClick={() => setActiveSection(sec.id)}
-                            className={`flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-3 rounded-lg md:rounded-xl transition-all text-left ${activeSection === sec.id
-                                ? 'text-indigo-600 bg-indigo-50'
-                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                                }`}
-                            style={activeSection === sec.id ? {
-                                border: '1px solid rgba(99,102,241,0.2)'
-                            } : {}}
-                        >
-                            <sec.icon size={16} className="md:w-[17px] md:h-[17px]" style={{ flexShrink: 0 }} />
-                            <span className="text-xs md:text-sm font-medium hidden lg:block">{sec.label}</span>
-                        </button>
-                    ))}
+                    <DragDropSection 
+                        sections={sections} 
+                        onReorder={setSections} 
+                        activeSection={activeSection} 
+                        setActiveSection={setActiveSection} 
+                    />
                 </div>
 
                 {/* Editor Content */}
                 <div className="ml-14 md:ml-16 lg:ml-56 flex-1 p-3 md:p-6 max-w-3xl">
+                    {showAISuggestions && (
+                        <div className="glass rounded-xl p-4 mb-4">
+                            <h3 className="text-sm font-bold mb-2 flex items-center gap-2"><Lightbulb size={16} /> AI Suggestions</h3>
+                            {activeSection === 'summary' && (
+                                <div className="space-y-2">
+                                    {getSummarySuggestions(cvData).map((s, i) => (
+                                        <button key={i} onClick={() => update('summary', s)} className="w-full text-left text-xs p-2 rounded bg-white/5 hover:bg-white/10">{s}</button>
+                                    ))}
+                                </div>
+                            )}
+                            {activeSection === 'skills' && getSkillSuggestions(cvData?.skills).length > 0 && (
+                                <div className="flex flex-wrap gap-2">
+                                    {getSkillSuggestions(cvData?.skills).map((s, i) => (
+                                        <button key={i} onClick={() => setCvData(prev => ({ ...prev, skills: [...(prev.skills || []), s] }))} className="text-xs px-3 py-1 rounded-full bg-indigo-500/20 hover:bg-indigo-500/30">{s}</button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                     <div className="animate-fade-in">
                         {renderSection()}
                     </div>
                 </div>
             </div>
+
+            <KeyboardShortcuts 
+                onSave={() => setSaveStatus('Saved ✓')} 
+                onPreview={() => navigate('preview')} 
+                onUndo={undo} 
+                onRedo={redo} 
+                canUndo={canUndo} 
+                canRedo={canRedo} 
+            />
+
+            {showComparison && (
+                <TemplateComparison 
+                    onClose={() => setShowComparison(false)} 
+                    onSelect={setSelectedTemplate} 
+                    TemplateComponents={TEMPLATE_COMPONENTS} 
+                    cvData={cvData} 
+                />
+            )}
         </div>
     )
 }
